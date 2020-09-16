@@ -107,4 +107,5 @@ ax4.set_yticks(np.arange(1, ax4yUpperLimit)[::2])
 ax4.legend(loc='best', fontsize=8)
 
 plt.tight_layout()
+plt.savefig('data.eps')
 plt.show()
