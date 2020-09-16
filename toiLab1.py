@@ -30,7 +30,7 @@ x = np.linspace(-10, 10, N)
 
 # First function: y = -+sqrt((1-x)/(1+x))
 ax1 = plt.subplot2grid((3, 2), (0, 0))
-ax1.set_title('First function')
+ax1.set_title('Первая функция')
 ax1.set_xlabel('x')
 ax1.set_ylabel('y')
 
@@ -44,15 +44,15 @@ for xi in x:
     except ValueError:
         continue
 
-ax1.plot(ax1x, ax1y, label='y0 = sqrt((1-x)/(1+x))')
-ax1.plot(ax1x, -ax1y, label='y1 = -sqrt((1-x)/(1+x))')
-ax1.legend(loc=1, fontsize=8)
+ax1.plot(ax1x, ax1y, label='y = -+√((1-x)/(1+x))', c='r')
+ax1.plot(ax1x, -ax1y, c='r')
+ax1.legend(loc='best', fontsize=8)
 
 # Average grade histogram for all semesters
 ax2 = plt.subplot2grid((3, 2), (0, 1), rowspan=3)
-ax2.set_title('Average grade for each semester')
-ax2.set_xlabel('Semester')
-ax2.set_ylabel('Average grade')
+ax2.set_title('Средний балл за каждый семестр')
+ax2.set_xlabel('Семестр')
+ax2.set_ylabel('Средний балл')
 ax2.set_ylim(3, 5)
 
 ax2data = np.array([[5, 5, 5, 3, 5, 5, 5, 5],
@@ -63,16 +63,16 @@ ax2data = np.array([[5, 5, 5, 3, 5, 5, 5, 5],
                     [4, 4, 5, 5, 5, 5, 4, 4, 3]], dtype=object)
 
 for i in range(len(ax2data)):
-    label = '{0} semester'.format(i + 1)
+    label = '{0} семестр'.format(i + 1)
     averageGrade = np.average(ax2data[i])
     ax2.bar(i + 1, averageGrade, label=label)
 
 ax2.set_xticks(np.arange(1, len(ax2data) + 1))
-ax2.legend(loc=1, fontsize=7)
+ax2.legend(loc='best', fontsize=7)
 
 # Second function: y = log2(x-2)
 ax3 = plt.subplot2grid((3, 2), (1, 0))
-ax3.set_title('Second function')
+ax3.set_title('Вторая функция')
 ax3.set_xlabel('x')
 ax3.set_ylabel('y')
 
@@ -87,13 +87,13 @@ for xi in x:
         continue
 
 ax3.plot(ax3x, ax3y, label='y = log2(x-2)')
-ax3.legend(loc=4, fontsize=10)
+ax3.legend(loc='best', fontsize=10)
 
 # Grade histogram for 4 semester
 ax4 = plt.subplot2grid((3, 2), (2, 0))
-ax4.set_title('Grade count for 4 semester')
-ax4.set_xlabel('Grades')
-ax4.set_ylabel('Count')
+ax4.set_title('Распределение баллов за 4 семестр')
+ax4.set_xlabel('Балл')
+ax4.set_ylabel('Количество')
 ax4.xaxis.set_major_locator(MaxNLocator(integer=True))
 
 grades = np.array([5, 5, 5, 5, 4, 4, 4, 5, 5, 5])
@@ -101,8 +101,10 @@ ax4data = Counter(grades)
 for grade, count in ax4data.items():
     ax4.bar(grade, count, label=str(grade))
 
-ax4.set_yticks(np.arange(1, ax4data.most_common()[0][1] + 1)[::2])
-ax4.legend(loc=1, fontsize=8)
+# Upper limit calculates from count of the most common grade + 1
+ax4yUpperLimit = ax4data.most_common()[0][1] + 1
+ax4.set_yticks(np.arange(1, ax4yUpperLimit)[::2])
+ax4.legend(loc='best', fontsize=8)
 
 plt.tight_layout()
 plt.show()
