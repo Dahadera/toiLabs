@@ -70,7 +70,7 @@ for i in range(len(labels)):
     contour.collections[i].set_label(labels[i])
 ax3.legend(loc='best', fontsize=5.2)
 
-
+# Task 3
 # Average grade histogram for all semesters
 ax2 = plt.subplot2grid((3, 2), (0, 1), rowspan=3)
 ax2.set_title('Средний балл за каждый семестр')
@@ -93,6 +93,7 @@ for i in range(len(ax2data)):
 ax2.set_xticks(np.arange(1, len(ax2data) + 1))
 ax2.legend(loc='best', fontsize=7)
 
+# Task 4
 # Grade histogram for 4 semester
 ax4 = plt.subplot2grid((3, 2), (2, 0))
 ax4.set_title('Распределение баллов за 4 семестр')
