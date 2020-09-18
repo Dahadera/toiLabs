@@ -64,10 +64,10 @@ ax3x, ax3y = np.mgrid[2.001:5:100j, -np.pi:np.pi:100j]
 z = np.log2(ax3x) + np.sin(ax3y)
 contour = ax3.contour(z)
 
-labels = ['line 1', 'line 2', 'line 3', 'line 4',
-          'line 5', 'line 6']
-for i in range(len(labels)):
-    contour.collections[i].set_label(labels[i])
+# labels = ['1', 'line 2', 'line 3', 'line 4',
+#           'line 5', 'line 6']
+for i in range(len(contour.collections) - 1):
+    contour.collections[i].set_label(str(i + 1))
 ax3.legend(loc='best', fontsize=5.2)
 
 # Task 3
