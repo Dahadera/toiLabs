@@ -32,7 +32,7 @@ N = 10000
 ax1 = plt.subplot2grid((3, 2), (0, 0))
 ax1.set_title("Первое задание")
 ax1.set_xlabel('x')
-ax1.set_xlabel('y')
+ax1.set_ylabel('y')
 
 func1x = np.linspace(-0.9999, 1, N)
 func1y = np.array([])
@@ -111,5 +111,6 @@ ax4.set_yticks(np.arange(1, ax4yUpperLimit)[::2])
 ax4.legend(loc='best', fontsize=8)
 
 plt.tight_layout()
+plt.savefig('data.eps')
 plt.savefig('data.svg')
 plt.show()
