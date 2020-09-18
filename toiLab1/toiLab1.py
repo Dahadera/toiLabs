@@ -26,27 +26,50 @@ fig.tight_layout()
 
 # Values count
 N = 10000
-x = np.linspace(-10, 10, N)
 
-# First function: y = -+sqrt((1-x)/(1+x))
+# Task №1
+# Plot first function: y = -+sqrt((1-x)/(1+x))
 ax1 = plt.subplot2grid((3, 2), (0, 0))
-ax1.set_title('Первая функция')
+ax1.set_title("Первое задание")
 ax1.set_xlabel('x')
-ax1.set_ylabel('y')
+ax1.set_xlabel('y')
 
-ax1y = np.array([])
-ax1x = np.array([])
-for xi in x:
-    try:
-        y = func1(xi)
-        ax1y = np.append(ax1y, y)
-        ax1x = np.append(ax1x, xi)
-    except ValueError:
-        continue
+func1x = np.linspace(-0.9999, 1, N)
+func1y = np.array([])
+for xi in func1x:
+    y = func1(xi)
+    func1y = np.append(func1y, y)
 
-ax1.plot(ax1x, ax1y, label='y = -+√((1-x)/(1+x))', c='r')
-ax1.plot(ax1x, -ax1y, c='r')
-ax1.legend(loc='best', fontsize=8)
+ax1.plot(func1x, func1y, label='y = -+√((1-x)/(1+x))', c='r')
+ax1.plot(func1x, -func1y, c='r')
+
+# Plot second function: y = log2(x-2)
+func2x = np.linspace(2.001, 5, N)
+func2y = np.array([])
+for xi in func2x:
+    y = func2(xi)
+    func2y = np.append(func2y, y)
+
+ax1.plot(func2x, func2y, label='y = log2(x-2)', c='b')
+ax1.set_ylim(-50, 50)
+ax1.legend(loc='best', fontsize=6)
+
+# Task №2
+ax3 = plt.subplot2grid((3, 2), (1, 0))
+ax3.set_title("2D изолинии")
+ax3.set_xlabel('x')
+ax3.set_ylabel('y')
+
+ax3x, ax3y = np.mgrid[2.001:5:100j, -np.pi:np.pi:100j]
+z = np.log2(ax3x) + np.sin(ax3y)
+contour = ax3.contour(z)
+
+labels = ['line 1', 'line 2', 'line 3', 'line 4',
+          'line 5', 'line 6']
+for i in range(len(labels)):
+    contour.collections[i].set_label(labels[i])
+ax3.legend(loc='best', fontsize=5.2)
+
 
 # Average grade histogram for all semesters
 ax2 = plt.subplot2grid((3, 2), (0, 1), rowspan=3)
@@ -70,25 +93,6 @@ for i in range(len(ax2data)):
 ax2.set_xticks(np.arange(1, len(ax2data) + 1))
 ax2.legend(loc='best', fontsize=7)
 
-# Second function: y = log2(x-2)
-ax3 = plt.subplot2grid((3, 2), (1, 0))
-ax3.set_title('Вторая функция')
-ax3.set_xlabel('x')
-ax3.set_ylabel('y')
-
-ax3y = np.array([])
-ax3x = np.array([])
-for xi in x:
-    try:
-        y = func2(xi)
-        ax3y = np.append(ax3y, y)
-        ax3x = np.append(ax3x, xi)
-    except ValueError:
-        continue
-
-ax3.plot(ax3x, ax3y, label='y = log2(x-2)')
-ax3.legend(loc='best', fontsize=10)
-
 # Grade histogram for 4 semester
 ax4 = plt.subplot2grid((3, 2), (2, 0))
 ax4.set_title('Распределение баллов за 4 семестр')
@@ -107,5 +111,5 @@ ax4.set_yticks(np.arange(1, ax4yUpperLimit)[::2])
 ax4.legend(loc='best', fontsize=8)
 
 plt.tight_layout()
-plt.savefig('data.png')
+plt.savefig('data.svg')
 plt.show()
