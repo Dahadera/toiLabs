@@ -54,40 +54,60 @@ def calcAccurancy(data):
     return hits / len(data)
 
 
+# Setting up plot params
+mpl.rcParams['font.family'] = 'Times New Roman'
+mpl.rcParams['axes.unicode_minus'] = False
+rcParams.update({'figure.autolayout': True})
+
 # Reading data from txt
 dataset = genfromtxt('iris.data-input.txt', delimiter=',', dtype=str)
 np.random.shuffle(dataset)
 trainData = np.array(dataset[0:len(dataset) // 2])
 testData = dataset[len(dataset) // 2:len(dataset) + 1]
 # Add empty string for checking knn accurancy
-testData = [np.append(i, '') for i in testData]
+testData = np.array([np.append(i, '') for i in testData])
 
 knn(trainData, testData, k=3)
-print(calcAccurancy(testData))
+accurancy = calcAccurancy(testData)
+print("KNN accurancy = {0}".format(accurancy))
+
+# Delete last string from testData
+testData = np.array([i[0:len(i) - 1] for i in testData])
+# Concatenate train and test dataset to plot graph
+processedDataset = np.array(testData)
+processedDataset = np.concatenate((processedDataset, trainData))
+
+# Using generators to make seperate arrays [ EXP for x in seq if COND ]
+irisSetosa = np.array([item for item in processedDataset if item[4] == 'Iris-setosa'])
+irisVersicolour = np.array([item for item in processedDataset if item[4] == 'Iris-versicolor'])
+irisVirginica = np.array([item for item in processedDataset if item[4] == 'Iris-virginica'])
+
+fig = plt.figure()
+fig.tight_layout()
+legend = ['Iris Setosa', 'Iris Versicolour', 'Iris Virginica']
+# [Sepal length, Sepal width, Petal length, Petal width, Class]
+
+ax1 = plt.subplot2grid((1, 2), (0, 0))
+ax1.scatter([float(item[0]) for item in irisSetosa], [float(item[2]) for item in irisSetosa], label='Iris Setosa')
+ax1.scatter([float(item[0]) for item in irisVersicolour], [float(item[2]) for item in irisVersicolour], label='Iris Versicolour')
+ax1.scatter([float(item[0]) for item in irisVirginica], [float(item[2]) for item in irisVirginica], label='Iris Virginica')
+
+ax1.set_title("Measurements of iris flowers length")
+ax1.set_xlabel('Sepal length')
+ax1.set_ylabel('Petal length')
+ax1.legend(loc='upper left', fontsize=7)
 
 
-# mpl.rcParams['font.family'] = 'Times New Roman'
-# mpl.rcParams['axes.unicode_minus'] = False
-# rcParams.update({'figure.autolayout': True})
+ax2 = plt.subplot2grid((1, 2), (0, 1))
+ax2.scatter([float(item[1]) for item in irisSetosa], [float(item[3]) for item in irisSetosa], label='Iris Setosa')
+ax2.scatter([float(item[1]) for item in irisVersicolour], [float(item[3]) for item in irisVersicolour], label='Iris Versicolour')
+ax2.scatter([float(item[1]) for item in irisVirginica], [float(item[3]) for item in irisVirginica], label='Iris Virginica')
 
-# fig = plt.figure()
-# fig.tight_layout()
-#
-# ax1 = plt.subplot2grid((1, 2), (0, 0))
-# ax1.set_title("Соотношение длины чашелистика к его ширине")
-# ax1.set_xlabel('Sepal width')
-# ax1.set_ylabel('Sepal length')
+ax2.set_title("Measurements of iris flowers width")
+ax2.set_xlabel('Sepal width')
+ax2.set_ylabel('Petal width')
+ax2.legend(loc='upper right', fontsize=7)
 
-# sepalWidthArr = [float(row[0]) for row in trainData] + [float(row[0]) for row in testData]
-# sepalLengthArr = [float(row[1]) for row in trainData] + [float(row[1]) for row in testData]
-
-# IrisSetosa = [item for item in]
-
-
-# print(trainData)
-# ax1.scatter(sepalWidthArr, sepalLengthArr, c='y')
-
-# ax = fig.add_subplot(111, projection='3d')
-#
-# plt.show()
+plt.savefig('data.svg')
+plt.show()
 
