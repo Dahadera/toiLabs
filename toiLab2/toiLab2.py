@@ -91,7 +91,7 @@ ax1.scatter([float(item[0]) for item in irisVersicolour],
 ax1.scatter([float(item[0]) for item in irisVirginica],
             [float(item[2]) for item in irisVirginica], label='Iris Virginica', marker='^', alpha=0.8)
 
-ax1.set_title("Измерения длины цветков ириса")
+ax1.set_title("Измерение длины цветков ириса")
 ax1.set_xlabel('Длина чашелистика')
 ax1.set_ylabel('Длина лепестка')
 ax1.legend(loc='upper left', fontsize=7)
@@ -105,11 +105,10 @@ ax2.scatter([float(item[1]) for item in irisVersicolour],
 ax2.scatter([float(item[1]) for item in irisVirginica],
             [float(item[3]) for item in irisVirginica], label='Iris Virginica',marker='^', alpha=0.8)
 
-ax2.set_title("Измерения ширины цветков ириса")
+ax2.set_title("Измерение ширины цветков ириса")
 ax2.set_xlabel('Ширина чашелистика')
 ax2.set_ylabel('Ширина лепестка')
 ax2.legend(loc='upper right', fontsize=7)
 
 plt.savefig('data.svg')
 plt.show()
-
