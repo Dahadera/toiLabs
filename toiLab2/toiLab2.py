@@ -4,8 +4,6 @@ import matplotlib.pyplot as plt
 from matplotlib import rcParams
 import math
 from collections import OrderedDict, Counter
-import csv
-import random
 from numpy import genfromtxt
 
 
@@ -54,7 +52,7 @@ def calcAccurancy(data):
     return hits / len(data)
 
 
-# Setting up plot params
+# Setting up mpl params
 mpl.rcParams['font.family'] = 'Times New Roman'
 mpl.rcParams['axes.unicode_minus'] = False
 rcParams.update({'figure.autolayout': True})
@@ -84,13 +82,14 @@ irisVirginica = np.array([item for item in processedDataset if item[4] == 'Iris-
 
 fig = plt.figure()
 fig.tight_layout()
-legend = ['Iris Setosa', 'Iris Versicolour', 'Iris Virginica']
-# [Sepal length, Sepal width, Petal length, Petal width, Class]
 
 ax1 = plt.subplot2grid((1, 2), (0, 0))
-ax1.scatter([float(item[0]) for item in irisSetosa], [float(item[2]) for item in irisSetosa], label='Iris Setosa')
-ax1.scatter([float(item[0]) for item in irisVersicolour], [float(item[2]) for item in irisVersicolour], label='Iris Versicolour')
-ax1.scatter([float(item[0]) for item in irisVirginica], [float(item[2]) for item in irisVirginica], label='Iris Virginica')
+ax1.scatter([float(item[0]) for item in irisSetosa],
+            [float(item[2]) for item in irisSetosa], label='Iris Setosa')
+ax1.scatter([float(item[0]) for item in irisVersicolour],
+            [float(item[2]) for item in irisVersicolour], label='Iris Versicolour')
+ax1.scatter([float(item[0]) for item in irisVirginica],
+            [float(item[2]) for item in irisVirginica], label='Iris Virginica')
 
 ax1.set_title("Measurements of iris flowers length")
 ax1.set_xlabel('Sepal length')
@@ -99,9 +98,12 @@ ax1.legend(loc='upper left', fontsize=7)
 
 
 ax2 = plt.subplot2grid((1, 2), (0, 1))
-ax2.scatter([float(item[1]) for item in irisSetosa], [float(item[3]) for item in irisSetosa], label='Iris Setosa')
-ax2.scatter([float(item[1]) for item in irisVersicolour], [float(item[3]) for item in irisVersicolour], label='Iris Versicolour')
-ax2.scatter([float(item[1]) for item in irisVirginica], [float(item[3]) for item in irisVirginica], label='Iris Virginica')
+ax2.scatter([float(item[1]) for item in irisSetosa],
+            [float(item[3]) for item in irisSetosa], label='Iris Setosa')
+ax2.scatter([float(item[1]) for item in irisVersicolour],
+            [float(item[3]) for item in irisVersicolour], label='Iris Versicolour')
+ax2.scatter([float(item[1]) for item in irisVirginica],
+            [float(item[3]) for item in irisVirginica], label='Iris Virginica')
 
 ax2.set_title("Measurements of iris flowers width")
 ax2.set_xlabel('Sepal width')
