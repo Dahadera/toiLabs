@@ -21,7 +21,7 @@ def knn(trainData, testData, k=1):
         dataDic = OrderedDict()
         for trainI in trainData:
             De = calcDe(trainI, testI)
-            # Keys are euclidean distance and the value is an array
+            # Keys are euclidean distance from trainI to testI and the value is an array
             # that's has train data element and type of its neighbour
             dataDic[De] = [testI, trainI[4]]
 
@@ -43,7 +43,7 @@ def classify(neighbours):
     return types.most_common()[0][0]
 
 
-def calcAccurancy(data):
+def calcAccuracy(data):
     hits = 0
     for feature in data:
         if feature[4] == feature[5]:
@@ -62,14 +62,14 @@ dataset = genfromtxt('iris.data-input.txt', delimiter=',', dtype=str)
 np.random.shuffle(dataset)
 trainData = np.array(dataset[0:len(dataset) // 2])
 testData = dataset[len(dataset) // 2:len(dataset) + 1]
-# Add empty string for checking knn accurancy
+# Add empty string for checking knn accuracy
 testData = np.array([np.append(i, '') for i in testData])
 
 knn(trainData, testData, k=3)
-accurancy = calcAccurancy(testData)
-print("KNN accurancy = {0}".format(accurancy))
+accuracy = calcAccuracy(testData)
+print("KNN accuracy = {0}".format(accuracy))
 
-# Delete last string from testData
+# Delete last string from every array in testData
 testData = np.array([i[0:len(i) - 1] for i in testData])
 # Concatenate train and test dataset to plot graph
 processedDataset = np.array(testData)
@@ -85,29 +85,29 @@ fig.tight_layout()
 
 ax1 = plt.subplot2grid((1, 2), (0, 0))
 ax1.scatter([float(item[0]) for item in irisSetosa],
-            [float(item[2]) for item in irisSetosa], label='Iris Setosa')
+            [float(item[2]) for item in irisSetosa], label='Iris Setosa', marker='o', alpha=0.8)
 ax1.scatter([float(item[0]) for item in irisVersicolour],
-            [float(item[2]) for item in irisVersicolour], label='Iris Versicolour')
+            [float(item[2]) for item in irisVersicolour], label='Iris Versicolour', marker='*', alpha=0.9)
 ax1.scatter([float(item[0]) for item in irisVirginica],
-            [float(item[2]) for item in irisVirginica], label='Iris Virginica')
+            [float(item[2]) for item in irisVirginica], label='Iris Virginica', marker='^', alpha=0.8)
 
-ax1.set_title("Measurements of iris flowers length")
-ax1.set_xlabel('Sepal length')
-ax1.set_ylabel('Petal length')
+ax1.set_title("Измерения длины цветков ириса")
+ax1.set_xlabel('Длина чашелистика')
+ax1.set_ylabel('Длина лепестка')
 ax1.legend(loc='upper left', fontsize=7)
 
 
 ax2 = plt.subplot2grid((1, 2), (0, 1))
 ax2.scatter([float(item[1]) for item in irisSetosa],
-            [float(item[3]) for item in irisSetosa], label='Iris Setosa')
+            [float(item[3]) for item in irisSetosa], label='Iris Setosa', marker='o', alpha=0.8)
 ax2.scatter([float(item[1]) for item in irisVersicolour],
-            [float(item[3]) for item in irisVersicolour], label='Iris Versicolour')
+            [float(item[3]) for item in irisVersicolour], label='Iris Versicolour', marker='*', alpha=0.9)
 ax2.scatter([float(item[1]) for item in irisVirginica],
-            [float(item[3]) for item in irisVirginica], label='Iris Virginica')
+            [float(item[3]) for item in irisVirginica], label='Iris Virginica',marker='^', alpha=0.8)
 
-ax2.set_title("Measurements of iris flowers width")
-ax2.set_xlabel('Sepal width')
-ax2.set_ylabel('Petal width')
+ax2.set_title("Измерения ширины цветков ириса")
+ax2.set_xlabel('Ширина чашелистика')
+ax2.set_ylabel('Ширина лепестка')
 ax2.legend(loc='upper right', fontsize=7)
 
 plt.savefig('data.svg')
