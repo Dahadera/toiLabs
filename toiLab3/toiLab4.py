@@ -22,7 +22,6 @@ bandwidth = estimate_bandwidth(processed_df, quantile=0.183, n_samples=150)
 m_shift = MeanShift(bandwidth=bandwidth)
 m_shift.fit(processed_df)
 m_shift_labels = m_shift.labels_
-# df['ms_cluster'] = m_shift.labels_
 
 # Spectral clustering
 spectral_c = SpectralClustering(n_clusters=3, assign_labels='discretize', random_state=0)
@@ -48,7 +47,6 @@ ax2 = fig.add_subplot(3, 2, 2)
 ax2.scatter(processed_df[:, 2], processed_df[:, 3], c=colors, alpha=0.8)
 ax2.set_xlabel('Petal length', fontsize=14)
 ax2.set_ylabel('Petal width', fontsize=14)
-
 
 colors = list(map(lambda x: '#3b4cc0' if x == 1 else '#b40426' if x == 2 else '#67c614', m_shift_labels))
 plt.figtext(0.5, 0.681, 'Mean-shift', va='center', ha='center', size=13, fontweight='bold')
@@ -76,4 +74,5 @@ ax6.scatter(processed_df[:, 2], processed_df[:, 3], c=colors, alpha=0.8)
 ax6.set_xlabel('Petal length', fontsize=14)
 ax6.set_ylabel('Petal width', fontsize=14)
 
+plt.savefig('data.svg')
 plt.show()
