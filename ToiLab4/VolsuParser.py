@@ -3,7 +3,8 @@ import requests
 import pandas as pd
 from collections import OrderedDict
 
-
+# Each ordered dict has course as key and value as url with placeholder 'YEAR',
+# which can be replaced by number of semester
 PRI_URLS = OrderedDict({
         2 : 'https://volsu.ru/rating/?plan_id=%D0%90%D0%A0%D0%9C003718&zach=All&semestr=YEAR&group=%D0%9F%D0%A0%D0%98%D0%B1-191',
         3 : 'https://volsu.ru/rating/?plan_id=%D0%90%D0%A0%D0%9C002847&zach=All&semestr=YEAR&group=%D0%9F%D0%A0%D0%98%D0%B1-181',
@@ -30,12 +31,16 @@ def parse_page(url):
 
     table = []
     headers = []
+
+    # Header information stored in <td> tag. Skipping '\n'.
+    # First not empty header is '№ Номер зачётки',
+    # the second ones are actual student classes, which has three <div>. First <div> has name of the class,
+    # second div has type of examination.
     for header in rows[0]:
         if header == '\n':
-            pass;
+            pass
         elif header.find('div'):
             header_divs = header.find_all('div')
-            # header_divs = header_divs[0].text
             semi_header = header_divs[0].text
             if len(header_divs[2].text) != 0:
                 semi_header = "{0} {1}".format(semi_header, header_divs[2].text)
@@ -61,17 +66,19 @@ def make_dataframes(group_urls):
 
     for url in group_urls:
         group_table = parse_page(url)
+        # group_table[0] has student ids, which not useful, so we don`t include it in dataframes
         group_df = pd.DataFrame(group_table[1::], columns=group_table[0])
         group_dataframes.append(group_df)
 
     return group_dataframes
 
 
-# piece of shit
+# Those students which don`t have data at least for one class, are getting deleted
 def drop_no_data_rows(dataframe):
     for column in dataframe.columns:
         indexes = dataframe.index[dataframe[column] == 'Нет данных']
         if len(indexes) != 0:
+            # Reversing list indexes of students to delete, for errors escaping
             indexes = indexes[::-1]
             for index in indexes:
                 dataframe = dataframe.drop(index, axis=0)
@@ -80,6 +87,7 @@ def drop_no_data_rows(dataframe):
 
 
 def cast_data_to_int(dataframe):
+    # Casting all columns to int data type, except column with student ids
     return dataframe[dataframe.columns[1::]].astype('int32')
 
 
@@ -116,6 +124,7 @@ def drop_zero_score_sum(dataframe):
 def gen_urls(group_urls):
     for key, value in group_urls.items():
         urls = []
+        # Key is a course, each course has course * 2 semesters
         semesters = key * 2
         for i in range(1, semesters):
             url = value.replace('YEAR', str(i))
