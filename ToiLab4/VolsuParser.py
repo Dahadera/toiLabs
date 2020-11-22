@@ -34,7 +34,7 @@ def parse_page(url):
 
     # Header information stored in <td> tag. Skipping '\n'.
     # First not empty header is '№ Номер зачётки',
-    # the second ones are actual student classes, which has three <div>. First <div> has name of the class,
+    # the second ones are actual student subjects, which has three <div>. First <div> has name of the subject,
     # second div has type of examination.
     for header in rows[0]:
         if header == '\n':
@@ -73,7 +73,7 @@ def make_dataframes(group_urls):
     return group_dataframes
 
 
-# Those students which don`t have data at least for one class, are getting deleted
+# Those students which don`t have data at least for one subject, are getting deleted
 def drop_no_data_rows(dataframe):
     for column in dataframe.columns:
         indexes = dataframe.index[dataframe[column] == 'Нет данных']
@@ -94,7 +94,7 @@ def cast_data_to_int(dataframe):
 def process_dataframe_to_plot(dataframe):
     dataframe = drop_no_data_rows(dataframe)
     dataframe = cast_data_to_int(dataframe)
-    dataframe = drop_zero_score_sum(dataframe)
+    dataframe = drop_zero_marks_sum(dataframe)
 
     return dataframe
 
@@ -114,7 +114,7 @@ def merge_semesters(semester_dataframes):
     return merged_semesters
 
 
-def drop_zero_score_sum(dataframe):
+def drop_zero_marks_sum(dataframe):
     dataframe['Сумма баллов'] = dataframe.sum(axis=1)
     dataframe = dataframe[dataframe["Сумма баллов"] != 0]
 
@@ -156,20 +156,20 @@ gen_urls(IST_URLS)
 ist_171_urls = [pair[1] for pair in list(IST_URLS.items())][2]
 ist_171_dataframes = make_dataframes(ist_171_urls)
 
-classes_sem_1 = [
+subjects_sem_1 = [
     '№ зачетной книжки',
     'Алгебра и геометрия Экзамен',
     'Математический анализ Зачет с оценкой'
 ]
 
-classes_sem_4 = [
+subjects_sem_4 = [
     '№ зачетной книжки',
     'Операционные системы Экзамен',
     'Базы данных Экзамен',
     'Численные методы Экзамен'
 ]
 
-classes_sem_5 = [
+subjects_sem_5 = [
     '№ зачетной книжки',
     'Визуальное программирование Зачет с оценкой',
     'Геоинформационные системы Экзамен',
@@ -177,26 +177,26 @@ classes_sem_5 = [
     'Производственная практика, научно-исследовательская работа Зачет с оценкой'
 ]
 
-classes_sem_6 = [
+subjects_sem_6 = [
     '№ зачетной книжки',
     'Производственная практика, научно-исследовательская работа Зачет с оценкой'
 ]
 
 
-ist_171_dataframe_sem_1 = ist_171_dataframes[0][classes_sem_1]
-ist_171_dataframe_sem_4 = ist_171_dataframes[3][classes_sem_4]
-ist_171_dataframe_sem_5 = ist_171_dataframes[4][classes_sem_5]
-ist_171_dataframe_sem_6 = ist_171_dataframes[5][classes_sem_6]
+ist_171_dataframe_sem_1 = ist_171_dataframes[0][subjects_sem_1]
+ist_171_dataframe_sem_4 = ist_171_dataframes[3][subjects_sem_4]
+ist_171_dataframe_sem_5 = ist_171_dataframes[4][subjects_sem_5]
+ist_171_dataframe_sem_6 = ist_171_dataframes[5][subjects_sem_6]
 
-ivt_171_dataframe_sem_1 = ivt_171_dataframes[0][classes_sem_1]
-ivt_171_dataframe_sem_4 = ivt_171_dataframes[3][classes_sem_4]
-ivt_171_dataframe_sem_5 = ivt_171_dataframes[4][classes_sem_5]
-ivt_171_dataframe_sem_6 = ivt_171_dataframes[5][classes_sem_6]
+ivt_171_dataframe_sem_1 = ivt_171_dataframes[0][subjects_sem_1]
+ivt_171_dataframe_sem_4 = ivt_171_dataframes[3][subjects_sem_4]
+ivt_171_dataframe_sem_5 = ivt_171_dataframes[4][subjects_sem_5]
+ivt_171_dataframe_sem_6 = ivt_171_dataframes[5][subjects_sem_6]
 
-pri_171_dataframe_sem_1 = pri_171_dataframes[0][classes_sem_1]
-pri_171_dataframe_sem_4 = pri_171_dataframes[3][classes_sem_4]
-pri_171_dataframe_sem_5 = pri_171_dataframes[4][classes_sem_5]
-pri_171_dataframe_sem_6 = pri_171_dataframes[5][classes_sem_6]
+pri_171_dataframe_sem_1 = pri_171_dataframes[0][subjects_sem_1]
+pri_171_dataframe_sem_4 = pri_171_dataframes[3][subjects_sem_4]
+pri_171_dataframe_sem_5 = pri_171_dataframes[4][subjects_sem_5]
+pri_171_dataframe_sem_6 = pri_171_dataframes[5][subjects_sem_6]
 
 
 ist_171_merged = merge_semesters([ist_171_dataframe_sem_1, ist_171_dataframe_sem_4,
